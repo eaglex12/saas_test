@@ -1,0 +1,26 @@
+datasource db {
+  provider = "postgresql" 
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Movie {
+  id            Int      @id @default(autoincrement())
+  name          String
+  releaseDate   DateTime
+  averageRating Float?   
+  reviews       Review[] @relation("MovieReviews")
+}
+
+model Review {
+  id             Int      @id @default(autoincrement())
+  movieId        Int
+  reviewerName   String?
+  rating         Int
+  comments       String
+  movie          Movie    @relation("MovieReviews", fields: [movieId], references: [id], onDelete: Cascade)
+}
