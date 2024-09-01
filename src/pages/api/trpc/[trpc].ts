@@ -15,9 +15,14 @@ export default async function handler(
 	res: NextApiResponse
 ) {
 	// Set CORS headers
+	res.setHeader("Access-Control-Request-Method", "*");
+
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+	res.setHeader(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept, Authorization"
+	);
 	res.setHeader("Access-Control-Allow-Credentials", "true");
 
 	// Handle preflight requests (CORS preflight)
