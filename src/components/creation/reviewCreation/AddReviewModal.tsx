@@ -4,39 +4,30 @@ import AddReview from "./AddReview";
 interface AddReviewModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	movieId: number;
-	onReviewAdded?: () => Promise<void>; // Make it optional if not always required
+	onReviewAdded?: () => Promise<void>;
 }
 
 const AddReviewModal: React.FC<AddReviewModalProps> = ({
 	isOpen,
 	onClose,
-	movieId,
 	onReviewAdded,
 }) => {
 	if (!isOpen) return null;
 
-	const handleReviewAdded = async () => {
-		if (onReviewAdded) {
-			await onReviewAdded(); // Call the onReviewAdded function if provided
-		}
-		onClose(); // Close the modal after the review is added
-	};
-
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-			<div className="bg-white p-6 rounded shadow-lg w-80">
-				<h2 className="text-xl font-semibold mb-4">Add New Review</h2>
-				<AddReview
-					movieId={movieId}
-					onReviewAdded={handleReviewAdded} // Pass handleReviewAdded to AddReview
-				/>
+			<div className="bg-white p-8 rounded-lg shadow-lg w-[700px] max-w-3xl h-[550px] relative flex flex-col">
 				<button
 					onClick={onClose}
-					className="mt-4 bg-red-500 text-white py-2 px-4 rounded"
+					className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
 				>
-					Close
+					<span className="text-2xl">&times;</span> {/* Cross button */}
 				</button>
+				<h2 className="text-2xl font-semibold mb-4">Add New Review</h2>
+				<div className="flex-1 overflow-y-auto mt-6">
+					{/* Ensure the form is scrollable if it overflows */}
+					<AddReview onReviewAdded={onReviewAdded} />
+				</div>
 			</div>
 		</div>
 	);

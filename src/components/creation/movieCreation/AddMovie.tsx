@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Image from "next/image";
-
 import { trpc } from "../../../utils/trpc"; // Adjust the path based on your setup
 
 interface AddMovieProps {
@@ -41,27 +40,28 @@ export const AddMovie: React.FC<AddMovieProps> = ({ onMovieAdded }) => {
 
 	return (
 		<div className="flex flex-col space-y-4">
-			<form onSubmit={handleSubmit} className="flex flex-col space-y-2">
+			<form onSubmit={handleSubmit} className="flex flex-col space-y-4">
 				<input
 					type="text"
 					placeholder="Movie Name"
 					value={movieName}
 					onChange={(e) => setMovieName(e.target.value)}
-					className="p-2 border rounded"
+					className="p-3 border rounded border-gray-300"
 				/>
 				<input
 					type="date"
 					value={releaseDate}
 					onChange={(e) => setReleaseDate(e.target.value)}
-					className="p-2 border rounded"
+					className="p-3 border rounded border-gray-300"
 				/>
 				{error && <p className="text-red-500 text-xs">{error}</p>}
 				<button
 					type="submit"
-					className="bg-blue-500 text-white py-2 rounded"
+					className="bg-violet-600 text-white py-2 px-4 rounded self-end"
 					disabled={loading} // Disable button while loading
 				>
-					{loading ? "Adding Movie..." : "Add Movie"} {/* Show loading state */}
+					{loading ? "Adding Movie..." : "Create movie"}{" "}
+					{/* Show loading state */}
 				</button>
 			</form>
 			{loading && (

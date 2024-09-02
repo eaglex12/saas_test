@@ -1,9 +1,11 @@
-// src/server/routers/review.ts
 import { z } from "zod";
 import { router, procedure } from "../trpc";
 import { prisma } from "../context";
 
 export const reviewRouter = router({
+	getAll: procedure.query(async () => {
+		return prisma.review.findMany(); // Fetch all reviews
+	}),
 	getAllByMovieId: procedure.input(z.number()).query(async ({ input }) => {
 		return prisma.review.findMany({ where: { movieId: input } });
 	}),
@@ -47,5 +49,16 @@ export const reviewRouter = router({
 		}),
 	delete: procedure.input(z.number()).mutation(async ({ input }) => {
 		return prisma.review.delete({ where: { id: input } });
+	}),
+	search: procedure.input(z.string()).query(async ({ input }) => {
+		const trimmedInput = input.trim().toLowerCase();
+		return prisma.review.findMany({
+			where: {
+				OR: [
+					{ reviewerName: { contains: input, mode: "insensitive" } },
+					{ comments: { contains: input, mode: "insensitive" } },
+				],
+			},
+		});
 	}),
 });

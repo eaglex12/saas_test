@@ -4,12 +4,10 @@ import { prisma } from "../context";
 import { TRPCError } from "@trpc/server";
 import { format, parseISO } from "date-fns";
 
-// Helper function to format dates as 'YYYY-MM-DD'
 const formatDate = (date: Date): string => {
-	return format(date, "yyyy-MM-dd"); // Format date to 'YYYY-MM-DD'
+	return format(date, "yyyy-MM-dd");
 };
 
-// Helper function to parse 'YYYY-MM-DD' string into a Date object
 const parseDate = (dateStr: string): Date => {
 	return parseISO(dateStr); // Parse 'YYYY-MM-DD' string to Date object
 };
@@ -81,6 +79,7 @@ export const movieRouter = router({
 				id: z.number(),
 				name: z.string().optional(),
 				releaseDate: z.string().optional(), // Input is string in 'YYYY-MM-DD' format
+				averageRating: z.number().optional(), // Add this line
 			})
 		)
 		.mutation(async ({ input }) => {

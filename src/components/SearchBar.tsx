@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { HiMagnifyingGlass } from "react-icons/hi2";
 
 interface SearchBarProps {
 	onSearch: (query: string) => void;
@@ -7,25 +8,21 @@ interface SearchBarProps {
 export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 	const [query, setQuery] = useState("");
 
-	const handleSearch = () => {
+	// Trigger the search whenever the query changes
+	useEffect(() => {
 		onSearch(query);
-	};
+	}, [query, onSearch]);
 
 	return (
-		<div className="flex items-center space-x-2">
+		<div className="flex items-center border-2 border-[#7828C8] rounded-lg p-2 space-x-2 w-[30%] bg-white">
+			<HiMagnifyingGlass size={16} className="text-[#7828C8] m-1" />
 			<input
 				type="text"
 				value={query}
 				onChange={(e) => setQuery(e.target.value)}
-				placeholder="Search movies..."
-				className="p-2 border rounded"
+				placeholder="Search for your favourite movie"
+				className="flex-grow p-2 border-none rounded-lg bg-white text-gray-800 focus:outline-none"
 			/>
-			<button
-				onClick={handleSearch}
-				className="p-2 bg-blue-500 text-white rounded"
-			>
-				Search
-			</button>
 		</div>
 	);
 };

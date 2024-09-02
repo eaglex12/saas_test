@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { trpc } from "../utils/trpc";
 import { MovieList } from "../components/MovieList";
 import { SearchBar } from "../components/SearchBar";
-import Image from "next/image";
 
 const HomePage: React.FC = () => {
 	const [query, setQuery] = useState("");
@@ -33,18 +32,30 @@ const HomePage: React.FC = () => {
 
 	const handleSearch = (searchQuery: string) => {
 		setQuery(searchQuery);
-		// Filter movies based on query
+
+		// Ensure the search query is not empty
+		if (searchQuery.trim() === "") {
+			setMovies(fetchedMovies);
+			return;
+		}
+
+		// Convert searchQuery to lowercase for a case-insensitive search
+		const lowerCaseQuery = searchQuery.toLowerCase();
+
+		// Filter movies based on whether the name starts with the search query
 		const filteredMovies = fetchedMovies.filter((movie) =>
-			movie.name.toLowerCase().includes(searchQuery.toLowerCase())
+			movie.name.toLowerCase().startsWith(lowerCaseQuery)
 		);
+
 		setMovies(filteredMovies);
 	};
 
 	return (
 		<div className="p-6 bg-gray-50 min-h-screen">
-			<h1 className="text-4xl font-bold text-gray-800 mb-6">
+			<h1 className="text-4xl font-semi-bold text-gray-800 mb-8 mt-10">
 				The best movie reviews site!
 			</h1>
+
 			<SearchBar onSearch={handleSearch} />
 
 			{loading && (
