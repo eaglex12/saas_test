@@ -25,7 +25,7 @@ export default async function handler(
 
 	// Handle preflight requests (CORS preflight)
 	if (req.method === "OPTIONS") {
-		res.status(200).end();
+		res.status(204).end(); // Use 204 No Content status for preflight requests
 		return;
 	}
 
